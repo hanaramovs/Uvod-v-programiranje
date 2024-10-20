@@ -40,26 +40,29 @@ def seznam_oglasov(vsebina):
 def slovar_pojmov_v_oglasu(oglas):
     tip_hise = re.search(r'class="title"><h2>(.*)<span class="location">', oglas) #dela
     lokacija = re.search(r'<span class="location">(.*)</span></h2>', oglas) #dela
-    #cena = re.search(r'class="price-label"><!---->(\$\d+) <!---->', oglas)
-    # povrsina = re.search(r'class="property"><!--\[--><!--\]--><span class="nb"><!--\[-->(\d+)<!--\]-->', oglas)
-    # povrsina_parcele = re.search(r'class="property"><!--\[-->land  <!--\]--><span class="nb"><!--\[-->(+\d.\d+)<!--\]-->', oglas)
-    # st_spalnic = re.search(r'class="nb"><!--\[-->(\d+)!--\]--></span><!--\[-->bedrooms<!--\]-->', oglas)
-    # st_kopalnic = re.search(r'class="nb"><!--\[-->(\d+)<!--\]--></span><!--\[-->bathroom<!--\]-->', oglas)
+    cena = re.search(r'class="price-label"><!\-\-\-\->(.*) <!\-\-\-\->', oglas) #dela
+    povrsina = re.search(r'class="property"><!\-\-\[\-\-><!\-\-\]\-\-><span class="nb"><!\-\-\[\-\->(.*)<!\-\-\]\-\-></span><!\-\-\[\-\->m²<!\-\-\]\-\-></div><!\-\-\-\-><div class="property">', oglas)#dela
+    povrsina_parcele = re.search(r'class="property"><!\-\-\[\-\->land  <!\-\-\]\-\-><span class="nb"><!\-\-\[\-\->(.*)<!\-\-\]\-\-></span><!\-\-\[\-\->(m²|ha)<!\-\-\]\-\-></div>', oglas)
+    st_spalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bedrooms<!\-\-\]\-\->', oglas)#dela
+    st_kopalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bathroom<!\-\-\]\-\->', oglas)#dela
     agencija = re.search(r'<p class="agency">(.*)</p></div>', oglas) #dela
-    # if tip_hise == None or lokacija == None or povrsina == None or povrsina_parcele == None:
+
+    # merska_enota_parcele = str(povrsina_parcele.group(2).replace(',', ''))
+    # if merska_enota_parcele == 'ha':
+    #     koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', '')) * 10000
+    # else:
+    #     koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', ''))
     #     return None
-    # if povrsina_parcele[-1:-3] == 'ha':
-    #     povrsina_parcele = int(povrsina_parcele) * 10000 
     
-    return{'tip hise' : tip_hise.group(1), 
-           'lokacija' : lokacija.group(1), 
-           #'cena' : cena.group(1) if cena else 'ni podatka1',  
-        #    'površina' : povrsina.group(1) if cena else 'ni podatka2', 
-        #    'površina parcele' : povrsina_parcele.group(1) if cena else 'ni podatka3',
-        #    'število spalnic' : st_spalnic.group(1) if cena else 'ni podatka4',
-        #    'število kopalnic' : st_kopalnic.group(1) if cena else 'ni podatka5',
-           'agencija' : agencija.group(1) if agencija else 'ni podatka_o_agenciji'
-    }
+    return{'tip hise' : tip_hise.group(1).strip(), 
+           'lokacija' : lokacija.group(1),
+           'cena' : int(cena.group(1).strip().lstrip('$').replace(',', '')) if cena else 'ni podatka o ceni',
+           'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'ni podatka2',
+           'površina parcele' : (povrsina_parcele.group(1).replace(',', '')) if povrsina_parcele else 'ni podatka3',
+           'merska enota parcele' : (povrsina_parcele.group(2)) if povrsina_parcele else 'ni podatka3',
+           'število spalnic' : st_spalnic.group(1) if st_spalnic else 'ni spalnic',
+           'število kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'ni kopalnic',
+           'agencija' : agencija.group(1) if agencija else 'ni podatka_o_agenciji'}
 
 def vsebina_v_seznam_slovarjev_oglasov(datoteka, directory):
     vsebina = datoteka_v_niz(directory, datoteka)

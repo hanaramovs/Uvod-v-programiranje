@@ -52,12 +52,12 @@ def slovar_pojmov_v_oglasu(oglas):
         koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', '')) * 10000
     else:
         koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', ''))
-    
+
     return{'tip hise' : tip_hise.group(1).strip(), 
            'lokacija' : lokacija.group(1),
            'cena' : int(cena.group(1).strip().lstrip('$').replace(',', '')) if cena else 'ni podatka o ceni',
-           'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'ni podatka2',
-           'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'ni podatka3',     
+           'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'ni podatka o površini',
+           'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'ni podatka o površini parcele',     
            'število spalnic' : st_spalnic.group(1) if st_spalnic else 'ni spalnic',
            'število kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'ni kopalnic',
            'agencija' : agencija.group(1) if agencija else 'ni podatka_o_agenciji'}

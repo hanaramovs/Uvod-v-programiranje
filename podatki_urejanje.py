@@ -42,7 +42,7 @@ def slovar_pojmov_v_oglasu(oglas):
     lokacija = re.search(r'<span class="location">(.*)</span></h2>', oglas) #dela
     cena = re.search(r'class="price-label"><!\-\-\-\->(.*) <!\-\-\-\->', oglas) #dela
     povrsina = re.search(r'class="property"><!\-\-\[\-\-><!\-\-\]\-\-><span class="nb"><!\-\-\[\-\->(.*)<!\-\-\]\-\-></span><!\-\-\[\-\->m²<!\-\-\]\-\-></div><!\-\-\-\-><div class="property">', oglas)#dela
-    povrsina_parcele = re.search(r'class="property"><!\-\-\[\-\->land  <!\-\-\]\-\-><span class="nb"><!\-\-\[\-\->(.*)<!\-\-\]\-\-></span><!\-\-\[\-\->(m²|ha)<!\-\-\]\-\-></div>', oglas)
+    povrsina_parcele = re.search(r'class="property"><!\-\-\[\-\->land  <!\-\-\]\-\-><span class="nb"><!\-\-\[\-\->(.*)<!\-\-\]\-\-></span><!\-\-\[\-\->(m²|ha)<!\-\-\]\-\-></div>', oglas)#dela
     st_spalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bedrooms<!\-\-\]\-\->', oglas)#dela
     st_kopalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bathroom<!\-\-\]\-\->', oglas)#dela
     agencija = re.search(r'<p class="agency">(.*)</p></div>', oglas) #dela
@@ -57,8 +57,7 @@ def slovar_pojmov_v_oglasu(oglas):
            'lokacija' : lokacija.group(1),
            'cena' : int(cena.group(1).strip().lstrip('$').replace(',', '')) if cena else 'ni podatka o ceni',
            'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'ni podatka2',
-           'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'ni podatka3',
-           'merska enota parcele' : (povrsina_parcele.group(2)) if povrsina_parcele else 'ni podatka3',
+           'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'ni podatka3',     
            'število spalnic' : st_spalnic.group(1) if st_spalnic else 'ni spalnic',
            'število kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'ni kopalnic',
            'agencija' : agencija.group(1) if agencija else 'ni podatka_o_agenciji'}

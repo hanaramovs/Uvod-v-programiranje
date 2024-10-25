@@ -3,8 +3,6 @@ import requests
 import re
 import csv
 
-#Najprej poberemo podatke iz spletne strani in jih pretvorimo v surov text
-
 def link_v_text(link):
     try:
         headers = {"User-agent" : "Chrome/111.05563.111"}
@@ -14,7 +12,6 @@ def link_v_text(link):
         return None 
     return odziv.text
 
-#Nato text prepišemo v datoteko 
 def text_v_datoteko(text, directory, datoteka):
     os.makedirs(directory, exist_ok=True)
     pot = os.path.join(directory, datoteka)
@@ -25,7 +22,6 @@ def text_v_datoteko(text, directory, datoteka):
 def shrani(odziv, directory, datoteka):
     vsebina = link_v_text(odziv)
     text_v_datoteko(vsebina, directory, datoteka)
-
 
 def datoteka_v_niz(directory, datoteka):
     pot = os.path.join(directory, datoteka)
@@ -55,10 +51,9 @@ def slovar_pojmov_v_oglasu(oglas):
 
     return{'tip_hiše' : tip_hise.group(1).strip(), 
            'lokacija' : lokacija.group(1),
-           #'št. lokacije' : int(st_lokacije),
            'cena' : int(cena.group(1).strip().lstrip('$').replace(',', '')) if cena else 'coerce',
            'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'coerce',
-           #'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'coerce',     
+           #'površina_parcele' : koncna_povrsina_parcele if povrsina_parcele else 'coerce',     
            'število_spalnic' : st_spalnic.group(1) if st_spalnic else 'coerce',
            'število_kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'coerce',
            'agencija' : agencija.group(1) if agencija else 'ni podatka o agenciji'}

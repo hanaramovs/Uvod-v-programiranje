@@ -47,12 +47,6 @@ def slovar_pojmov_v_oglasu(oglas):
     st_kopalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bathroom<!\-\-\]\-\->', oglas)#dela
     agencija = re.search(r'<p class="agency">(.*)</p></div>', oglas) #dela
 
-    # if lokacija[-3] == '0':
-    #     st_lokacije = lokacija[-2]
-    # else:
-    #     st_lokacije = lokacija[-3: -1]
-
-
     # merska_enota_parcele = povrsina_parcele.group(2)
     # if merska_enota_parcele == 'ha':
     #     koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', '')) * 10000

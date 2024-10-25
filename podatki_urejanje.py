@@ -47,10 +47,10 @@ def slovar_pojmov_v_oglasu(oglas):
     st_kopalnic = re.search(r'class="nb"><!\-\-\[\-\->(\d*)<!\-\-\]\-\-></span><!\-\-\[\-\->bathroom<!\-\-\]\-\->', oglas)#dela
     agencija = re.search(r'<p class="agency">(.*)</p></div>', oglas) #dela
 
-    if lokacija[-3] == '0':
-        st_lokacije = lokacija[-2]
-    else:
-        st_lokacije = lokacija[-3: -1]
+    # if lokacija[-3] == '0':
+    #     st_lokacije = lokacija[-2]
+    # else:
+    #     st_lokacije = lokacija[-3: -1]
 
 
     # merska_enota_parcele = povrsina_parcele.group(2)
@@ -59,14 +59,14 @@ def slovar_pojmov_v_oglasu(oglas):
     # else:
     #     koncna_povrsina_parcele = float(povrsina_parcele.group(1).replace(',', ''))
 
-    return{'tip hise' : tip_hise.group(1).strip(), 
+    return{'tip_hiše' : tip_hise.group(1).strip(), 
            'lokacija' : lokacija.group(1),
-           'št. lokacije' : int(st_lokacije),
+           #'št. lokacije' : int(st_lokacije),
            'cena' : int(cena.group(1).strip().lstrip('$').replace(',', '')) if cena else 'coerce',
            'površina' : int(povrsina.group(1).replace(',', '')) if povrsina else 'coerce',
            #'površina parcele' : koncna_povrsina_parcele if povrsina_parcele else 'coerce',     
-           'število spalnic' : st_spalnic.group(1) if st_spalnic else 'coerce',
-           'število kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'coerce',
+           'število_spalnic' : st_spalnic.group(1) if st_spalnic else 'coerce',
+           'število_kopalnic' : st_kopalnic.group(1) if st_kopalnic else 'coerce',
            'agencija' : agencija.group(1) if agencija else 'ni podatka o agenciji'}
 
 def vsebina_v_seznam_slovarjev_oglasov(datoteka, directory):
